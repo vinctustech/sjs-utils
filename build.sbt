@@ -1,4 +1,4 @@
-name := "_scalajs"
+name := "sjs-utils"
 
 version := "0.1.0-snapshot.1"
 
@@ -6,7 +6,7 @@ scalaVersion := "2.13.4"
 
 scalacOptions ++= Seq( "-deprecation", "-feature", "-unchecked", "-language:postfixOps", "-language:implicitConversions", "-language:existentials", "-language:dynamics", "-Xasync")
 
-organization := "xyz.hyperreal"
+organization := "com.vinctus"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -53,17 +53,17 @@ pomIncludeRepository := { _ => false }
 
 licenses := Seq("ISC" -> url("https://opensource.org/licenses/ISC"))
 
-homepage := Some(url("https://github.com/edadma/" + name.value))
+homepage := Some(url("https://github.com/vinctustech/" + name.value))
 
 pomExtra :=
   <scm>
-    <url>git@github.com:edadma/{name.value}.git</url>
-    <connection>scm:git:git@github.com:edadma/{name.value}.git</connection>
+    <url>git@github.com:vinctustech/{name.value}.git</url>
+    <connection>scm:git:git@github.com:vinctustech/{name.value}.git</connection>
   </scm>
   <developers>
     <developer>
       <id>edadma</id>
       <name>Edward A. Maxedon, Sr.</name>
-      <url>https://github.com/edadma</url>
+      <url>https://github.com/vinctustech</url>
     </developer>
   </developers>
