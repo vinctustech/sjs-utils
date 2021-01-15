@@ -5,7 +5,11 @@ import scala.collection.immutable.{AbstractMap, ListMap}
 object map extends Dynamic {
   def applyDynamicNamed(method: String)(properties: (String, Any)*): DynamicMap =
     method match {
-      case "apply" => new DynamicMap(properties.to(ListMap))
+      case "apply" =>
+        if (properties.exists(_._1 == ""))
+          sys.error(s"map contains empty property name: $properties")
+
+        new DynamicMap(properties to ListMap)
     }
 }
 
