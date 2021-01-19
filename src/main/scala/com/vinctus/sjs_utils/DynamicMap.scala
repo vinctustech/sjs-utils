@@ -16,6 +16,10 @@ object map extends Dynamic {
 class DynamicMap(obj: ListMap[String, Any]) extends AbstractMap[String, Any] with Dynamic {
   def selectDynamic(field: String): String = obj(field).asInstanceOf[String]
 
+  def >>>(field: String): DynamicMap = obj(field).asInstanceOf[DynamicMap]
+
+  def >>(field: String): String = obj(field).asInstanceOf[String]
+
   def removed(key: String): DynamicMap = new DynamicMap(obj.removed(key))
 
   def get(key: String): Option[Any] = obj.get(key)
@@ -24,5 +28,11 @@ class DynamicMap(obj: ListMap[String, Any]) extends AbstractMap[String, Any] wit
 
   def updated[V1 >: Any](key: String, value: V1): DynamicMap = new DynamicMap(obj.updated(key, value))
 
-  override def toString: String = obj.map { case (k, v) => s"$k: $v" }.mkString("{", ", ", "}")
+  private def quoted(a: Any) =
+    a match {
+      case s: String => s"${'"'}$s${'"'}"
+      case _         => String.valueOf(a)
+    }
+
+  override def toString: String = obj.map { case (k, v) => s"$k: ${quoted(v)}" }.mkString("{", ", ", "}")
 }
