@@ -6,11 +6,11 @@ object Implicits {
 
   implicit def product2map(p: Product): Map[String, Any] = product2seq(p).toMap
 
-  implicit def dotString(f: DynamicMapDot): String = f.map(f.field).toString
+  implicit def dotString(f: DynamicMapDot): String = f.asString
 
-  implicit def dotInt(f: DynamicMapDot): Int = f.map(f.field).asInstanceOf[Int]
+  implicit def dotInt(f: DynamicMapDot): Int = f.asInt
 
-  implicit def dotDynamicMap(f: DynamicMapDot): DynamicMap = f.map(f.field).asInstanceOf[DynamicMap]
+  implicit def dotDynamicMap(f: DynamicMapDot): DynamicMap = f.asMap
 
   implicit def dotMap(f: DynamicMapDot): Map[String, Any] = dotDynamicMap(f)
 

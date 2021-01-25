@@ -16,6 +16,12 @@ object map extends Dynamic {
 class DynamicMapDot(val map: DynamicMap, val field: String) extends Dynamic {
   def selectDynamic(subfield: String): DynamicMapDot = new DynamicMapDot(map >>> field, subfield)
 
+  def asString: String = map(field).toString
+
+  def asInt: Int = map(field).asInstanceOf[Int]
+
+  def asMap: DynamicMap = map(field).asInstanceOf[DynamicMap]
+
   override def toString: String = s"DynamicMap field: $map . $field"
 }
 
