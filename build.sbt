@@ -1,6 +1,6 @@
 name := "sjs-utils"
 
-version := "0.1.0-snapshot.7"
+version := "0.1.0-snapshot.8"
 
 scalaVersion := "2.13.4"
 

@@ -9,6 +9,6 @@ object Main extends App {
   val n: Int = m.a
   val s: String = m.b
 
-  println(m, n, s)
+  println(s)
 
 }
