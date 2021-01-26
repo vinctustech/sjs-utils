@@ -1,7 +1,7 @@
 package com.vinctus.sjs_utils
 
-import scala.reflect.macros.blackbox.Context
 import scala.language.experimental.macros
+import scala.reflect.macros.blackbox
 
 trait Mappable[T] {
   def toMap(t: T): Map[String, Any]
@@ -12,7 +12,7 @@ object Mappable {
 
   implicit def materializeMappable[T]: Mappable[T] = macro materializeMappableImpl[T]
 
-  def materializeMappableImpl[T: c.WeakTypeTag](c: Context): c.Expr[Mappable[T]] = {
+  def materializeMappableImpl[T: c.WeakTypeTag](c: blackbox.Context): c.Expr[Mappable[T]] = {
     import c.universe._
     val tpe = weakTypeOf[T]
     val companion = tpe.typeSymbol.companion
