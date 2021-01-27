@@ -26,7 +26,7 @@ class DynamicMapField(val obj: Either[DynamicMap, Product], val field: String) e
       case Right(p) => p.productElement(p.productElementNames.indexOf(field))
     }
 
-  def asString: String = String.valueOf(get)
+  def asString: String = get.asInstanceOf[String]
 
   def asInt: Int = get.asInstanceOf[Int]
 
