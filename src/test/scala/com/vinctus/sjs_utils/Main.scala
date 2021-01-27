@@ -4,11 +4,13 @@ import Implicits._
 
 object Main extends App {
 
-  val m = map(a = 3, b = "asdf", c = map(d = 5, e = "zxcv"))
+  case class CC(d: Int, e: String)
 
-  val n: Int = m.a
-  val s: String = m.b
+  val m = map(a = 3, b = "asdf", c = CC(5, "zxcv"))
 
-  println(s)
+  val n: Int = m.c.d
+  val s: String = m.c.e
+
+  println(n, s)
 
 }

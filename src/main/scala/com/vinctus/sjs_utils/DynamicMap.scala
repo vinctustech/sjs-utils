@@ -13,21 +13,31 @@ object map extends Dynamic {
     }
 }
 
-class DynamicMapDot(val map: DynamicMap, val field: String) extends Dynamic {
-  def selectDynamic(subfield: String): DynamicMapDot = new DynamicMapDot(map >>> field, subfield)
+class DynamicMapField(val obj: Either[DynamicMap, Product], val field: String) extends Dynamic {
+  def selectDynamic(subfield: String): DynamicMapField =
+    new DynamicMapField(get match {
+      case m: DynamicMap => Left(m)
+      case p: Product    => Right(p)
+    }, subfield)
 
-  def asString: String = map(field).toString
+  def get: Any =
+    obj match {
+      case Left(m)  => m(field)
+      case Right(p) => p.productElement(p.productElementNames.indexOf(field))
+    }
 
-  def asInt: Int = map(field).asInstanceOf[Int]
+  def asString: String = get.toString
 
-  def asMap: DynamicMap = map(field).asInstanceOf[DynamicMap]
+  def asInt: Int = get.asInstanceOf[Int]
 
-  override def toString: String = s"DynamicMap field: $map . $field"
+  def asMap: DynamicMap = get.asInstanceOf[DynamicMap]
+
+  override def toString: String = s"DynamicMap field: $obj . $field"
 }
 
 class DynamicMap(obj: ListMap[String, Any]) extends AbstractMap[String, Any] with Dynamic {
 //  def selectDynamic(field: String): String = obj(field).asInstanceOf[String]
-  def selectDynamic(field: String): DynamicMapDot = new DynamicMapDot(this, field)
+  def selectDynamic(field: String): DynamicMapField = new DynamicMapField(Left(this), field)
 
   def >>>(field: String): DynamicMap = obj(field).asInstanceOf[DynamicMap]
 
