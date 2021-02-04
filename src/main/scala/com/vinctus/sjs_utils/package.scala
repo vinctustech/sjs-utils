@@ -1,7 +1,9 @@
 package com.vinctus
 
+import java.time.{Instant, LocalDate}
 import scala.collection.immutable.ListMap
 import scala.scalajs.js
+import js.JSConverters._
 
 package object sjs_utils {
 
@@ -26,5 +28,20 @@ package object sjs_utils {
     if (!obj.isDefined) null
     else toMap(obj)
   }
+
+  def toJS(a: Any): js.Any =
+    a match {
+      case Some(a)          => a.asInstanceOf[js.Any]
+      case None             => js.undefined
+      case date: LocalDate  => new js.Date(date.getYear, date.getMonthValue - 1, date.getDayOfMonth)
+      case instant: Instant => new js.Date(instant.toEpochMilli.toDouble)
+      case d: BigDecimal    => d.toDouble
+      case l: Seq[_]        => l map toJS toJSArray
+      case m: Map[_, _] =>
+        (m map { case (k, v) => k -> toJS(v) })
+          .asInstanceOf[Map[String, Any]]
+          .toJSDictionary
+      case _ => a.asInstanceOf[js.Any]
+    }
 
 }
