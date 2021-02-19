@@ -23,7 +23,7 @@ package object sjs_utils {
         if (jsObject(v))
           map = map + ((k, toMap(v.asInstanceOf[js.Any])))
         else if (jsArray(v))
-          map = map + ((k, v.asInstanceOf[js.Array[_]].toList))
+          map = map + ((k, v.asInstanceOf[js.Array[js.Any]].toList map toMap))
 
       map
     }
