@@ -32,7 +32,7 @@ class DynamicMapField(val obj: Either[DynamicMap, Product], val field: String) e
 
   def asMap: DynamicMap = get.asInstanceOf[DynamicMap]
 
-  def asList: List[DynamicMap] = get.asInstanceOf[List[ListMap[String, Any]]] map (new DynamicMap(_))
+  def asList: List[DynamicMap] = get.asInstanceOf[List[DynamicMap]]
 
   override def toString: String = s"DynamicMap field: $obj . $field"
 }
