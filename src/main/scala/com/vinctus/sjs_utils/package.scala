@@ -15,22 +15,17 @@ package object sjs_utils {
   def jsObject(v: Any): Boolean =
     js.typeOf(v) == "object" && (v != null) && !v.isInstanceOf[Long] && !v.isInstanceOf[js.Date] && !jsArray(v)
 
-  def toMap(obj: js.UndefOr[js.Any]): ListMap[String, Any] = {
-    def toMap(obj: js.Any): ListMap[String, Any] = {
-      var map: ListMap[String, Any] = obj.asInstanceOf[js.Dictionary[js.Any]].to(ListMap)
+  def toMap(a: js.UndefOr[js.Any]): ListMap[String, Any] = fromJS(a).asInstanceOf[ListMap[String, Any]]
 
-      for ((k, v) <- map)
-        if (jsObject(v))
-          map = map + ((k, toMap(v.asInstanceOf[js.Any])))
-        else if (jsArray(v))
-          map = map + ((k, v.asInstanceOf[js.Array[js.Any]].toList map toMap))
-
-      map
-    }
-
-    if (!obj.isDefined) null
-    else toMap(obj)
-  }
+  def fromJS(a: js.UndefOr[js.Any]): Any =
+    if (!a.isDefined) null
+    else if (jsObject(a))
+      a.asInstanceOf[js.Dictionary[js.Any]].iterator map {
+        case (k, v) => (k, fromJS(v.asInstanceOf[js.Any]).asInstanceOf[js.UndefOr[js.Any]])
+      } to ListMap
+    else if (jsArray(a))
+      a.asInstanceOf[js.Array[js.Any]].iterator map (fromJS(_).asInstanceOf[js.UndefOr[js.Any]]) toList
+    else a
 
   def toJS(a: Any): js.Any =
     a match {
@@ -39,6 +34,7 @@ package object sjs_utils {
       case date: LocalDate  => new js.Date(date.getYear, date.getMonthValue - 1, date.getDayOfMonth)
       case instant: Instant => new js.Date(instant.toEpochMilli.toDouble)
       case d: BigDecimal    => d.toDouble
+      case s: String        => s
       case l: Seq[_]        => l map toJS toJSArray
       case m: Map[_, _] =>
         (m map { case (k, v) => k -> toJS(v) })
