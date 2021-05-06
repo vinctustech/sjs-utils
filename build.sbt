@@ -1,12 +1,16 @@
 name := "sjs-utils"
 
-version := "0.1.0-snapshot.21"
+version := "0.1.0-snapshot.22"
 
 scalaVersion := "2.13.5"
 
 scalacOptions ++= Seq( "-deprecation", "-feature", "-unchecked", "-language:postfixOps", "-language:implicitConversions", "-language:existentials", "-language:dynamics", "-Xasync")
 
 organization := "com.vinctus"
+
+githubOwner := "vinctustech"
+
+githubRepository := "sjs-utils"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -15,8 +19,6 @@ resolvers += "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releas
 resolvers += "Hyperreal Repository" at "https://dl.bintray.com/edadma/maven"
 
 enablePlugins(ScalaJSPlugin)
-
-enablePlugins(ScalablyTypedConverterPlugin)
 
 Test / scalaJSUseMainModuleInitializer := true
 
@@ -31,9 +33,6 @@ libraryDependencies ++= Seq(
   "org.scala-lang" % "scala-reflect" % scalaVersion.value % Provided
 )
 
-npmDependencies in Compile ++= Seq(
-)
-
 libraryDependencies ++= Seq(
   "org.scalatest" %%% "scalatest" % "3.1.1" % "test"
   //"org.scalacheck" %%% "scalacheck" % "1.14.1" % "test"
@@ -43,11 +42,11 @@ libraryDependencies ++= Seq(
   "io.github.cquiroz" %%% "scala-java-time" % "2.0.0"
 )
 
-mainClass in (Compile, run) := Some( s"${organization.value}.${name.value.replace('-', '_')}.Main" )
+Test / mainClass := Some( s"${organization.value}.${name.value.replace('-', '_')}.Main" )
 
 publishMavenStyle := true
 
-publishArtifact in Test := false
+Test / publishArtifact := false
 
 pomIncludeRepository := { _ => false }
 
