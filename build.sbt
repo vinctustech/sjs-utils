@@ -1,8 +1,8 @@
 name := "sjs-utils"
 
-version := "0.1.0-snapshot.22"
+version := "0.1.0-snapshot.23"
 
-scalaVersion := "2.13.5"
+scalaVersion := "2.13.6"
 
 scalacOptions ++= Seq( "-deprecation", "-feature", "-unchecked", "-language:postfixOps", "-language:implicitConversions", "-language:existentials", "-language:dynamics", "-Xasync")
 

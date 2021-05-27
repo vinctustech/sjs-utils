@@ -1,7 +1,7 @@
 package com.vinctus
 
 import java.time.{Instant, LocalDate}
-import scala.collection.immutable.ListMap
+import scala.collection.immutable.VectorMap
 import scala.scalajs.js
 import js.JSConverters._
 
@@ -15,14 +15,14 @@ package object sjs_utils {
   def jsObject(v: Any): Boolean =
     js.typeOf(v) == "object" && (v != null) && !v.isInstanceOf[Long] && !v.isInstanceOf[js.Date] && !jsArray(v)
 
-  def toMap(a: js.UndefOr[js.Any]): ListMap[String, Any] = fromJS(a).asInstanceOf[ListMap[String, Any]]
+  def toMap(a: js.UndefOr[js.Any]): VectorMap[String, Any] = fromJS(a).asInstanceOf[VectorMap[String, Any]]
 
   def fromJS(a: js.UndefOr[js.Any]): Any =
     if (!a.isDefined) null
     else if (jsObject(a))
       a.asInstanceOf[js.Dictionary[js.Any]].iterator map {
         case (k, v) => (k, fromJS(v.asInstanceOf[js.Any]).asInstanceOf[js.UndefOr[js.Any]])
-      } to ListMap
+      } to VectorMap
     else if (jsArray(a))
       a.asInstanceOf[js.Array[js.Any]].iterator map (fromJS(_).asInstanceOf[js.UndefOr[js.Any]]) toList
     else a

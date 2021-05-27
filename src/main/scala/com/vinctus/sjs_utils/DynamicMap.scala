@@ -1,6 +1,6 @@
 package com.vinctus.sjs_utils
 
-import scala.collection.immutable.{AbstractMap, ListMap}
+import scala.collection.immutable.{AbstractMap, VectorMap}
 
 object map extends Dynamic {
   def applyDynamicNamed(method: String)(properties: (String, Any)*): DynamicMap =
@@ -9,7 +9,7 @@ object map extends Dynamic {
         if (properties.exists(_._1 == ""))
           sys.error(s"map contains empty property name: $properties")
 
-        new DynamicMap(properties to ListMap)
+        new DynamicMap(properties to VectorMap)
     }
 }
 
@@ -37,7 +37,7 @@ class DynamicMapField(val obj: Either[DynamicMap, Product], val field: String) e
   override def toString: String = s"DynamicMap field: $obj . $field"
 }
 
-class DynamicMap(obj: ListMap[String, Any]) extends AbstractMap[String, Any] with Dynamic {
+class DynamicMap(obj: VectorMap[String, Any]) extends AbstractMap[String, Any] with Dynamic {
 //  def selectDynamic(field: String): String = obj(field).asInstanceOf[String]
   def selectDynamic(field: String): DynamicMapField = new DynamicMapField(Left(this), field)
 
