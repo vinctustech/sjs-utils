@@ -3,6 +3,7 @@ package com.vinctus.sjs_utils
 import scala.collection.immutable.{AbstractMap, VectorMap}
 
 object map extends Dynamic {
+
   def applyDynamicNamed(method: String)(properties: (String, Any)*): DynamicMap =
     method match {
       case "apply" =>
@@ -11,6 +12,7 @@ object map extends Dynamic {
 
         new DynamicMap(properties to VectorMap)
     }
+
 }
 
 class DynamicMapField(val obj: Either[DynamicMap, Product], val field: String) extends Dynamic {
@@ -37,7 +39,14 @@ class DynamicMapField(val obj: Either[DynamicMap, Product], val field: String) e
   override def toString: String = s"DynamicMap field: $obj . $field"
 }
 
-class DynamicMap(obj: VectorMap[String, Any]) extends AbstractMap[String, Any] with Dynamic {
+object DynamicMap {
+
+  def apply(obj: Map[String, Any]): DynamicMap = new DynamicMap(obj)
+
+}
+
+class DynamicMap(obj: Map[String, Any]) extends AbstractMap[String, Any] with Dynamic {
+
 //  def selectDynamic(field: String): String = obj(field).asInstanceOf[String]
   def selectDynamic(field: String): DynamicMapField = new DynamicMapField(Left(this), field)
 
@@ -60,4 +69,5 @@ class DynamicMap(obj: VectorMap[String, Any]) extends AbstractMap[String, Any] w
     }
 
   override def toString: String = obj.map { case (k, v) => s"$k: ${quoted(v)}" }.mkString("{", ", ", "}")
+
 }
