@@ -1,10 +1,17 @@
 name := "sjs-utils"
 
-version := "0.1.0-snapshot.24"
+version := "0.1.0-snapshot.25"
 
 scalaVersion := "2.13.6"
 
-scalacOptions ++= Seq( "-deprecation", "-feature", "-unchecked", "-language:postfixOps", "-language:implicitConversions", "-language:existentials", "-language:dynamics", "-Xasync")
+scalacOptions ++= Seq("-deprecation",
+                      "-feature",
+                      "-unchecked",
+                      "-language:postfixOps",
+                      "-language:implicitConversions",
+                      "-language:existentials",
+                      "-language:dynamics",
+                      "-Xasync")
 
 organization := "com.vinctus"
 
@@ -34,7 +41,7 @@ libraryDependencies ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %%% "scalatest" % "3.1.1" % "test"
+  "org.scalatest" %%% "scalatest" % "3.2.5" % "test"
   //"org.scalacheck" %%% "scalacheck" % "1.14.1" % "test"
 )
 
@@ -42,13 +49,15 @@ libraryDependencies ++= Seq(
   "io.github.cquiroz" %%% "scala-java-time" % "2.0.0"
 )
 
-Test / mainClass := Some( s"${organization.value}.${name.value.replace('-', '_')}.Main" )
+Test / mainClass := Some(s"${organization.value}.${name.value.replace('-', '_')}.Main")
 
 publishMavenStyle := true
 
 Test / publishArtifact := false
 
-pomIncludeRepository := { _ => false }
+pomIncludeRepository := { _ =>
+  false
+}
 
 licenses := Seq("ISC" -> url("https://opensource.org/licenses/ISC"))
 

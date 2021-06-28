@@ -7,8 +7,7 @@ import js.JSConverters._
 
 package object sjs_utils {
 
-  def map2cc[T: Mappable](map: Map[String, Any]): T =
-    implicitly[Mappable[T]].fromMap(map)
+  def map2cc[T: Mappable](map: Map[String, Any]): T = implicitly[Mappable[T]].fromMap(map)
 
   def jsArray(v: Any): Boolean = v.isInstanceOf[js.Array[_]]
 
