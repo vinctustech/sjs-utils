@@ -1,6 +1,6 @@
 name := "sjs-utils"
 
-version := "0.1.0-snapshot.25"
+version := "0.1.0-snapshot.26"
 
 scalaVersion := "2.13.6"
 
@@ -41,12 +41,12 @@ libraryDependencies ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %%% "scalatest" % "3.2.5" % "test"
+  "org.scalatest" %%% "scalatest" % "3.2.9" % "test"
   //"org.scalacheck" %%% "scalacheck" % "1.14.1" % "test"
 )
 
 libraryDependencies ++= Seq(
-  "io.github.cquiroz" %%% "scala-java-time" % "2.0.0"
+  "io.github.cquiroz" %%% "scala-java-time" % "2.3.0"
 )
 
 Test / mainClass := Some(s"${organization.value}.${name.value.replace('-', '_')}.Main")
