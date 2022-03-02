@@ -1,8 +1,8 @@
 name := "sjs-utils"
 
-version := "0.1.0-snapshot.26"
+version := "0.1.0-snapshot.27"
 
-scalaVersion := "2.13.6"
+scalaVersion := "3.1.1"
 
 scalacOptions ++= Seq("-deprecation",
                       "-feature",
@@ -10,8 +10,7 @@ scalacOptions ++= Seq("-deprecation",
                       "-language:postfixOps",
                       "-language:implicitConversions",
                       "-language:existentials",
-                      "-language:dynamics",
-                      "-Xasync")
+                      "-language:dynamics")
 
 organization := "com.vinctus"
 
@@ -36,13 +35,12 @@ scalaJSUseMainModuleInitializer := true
 jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv()
 
 libraryDependencies ++= Seq(
-  "org.scala-lang.modules" %% "scala-async" % "0.10.0",
-  "org.scala-lang" % "scala-reflect" % scalaVersion.value % Provided
+//  "org.scala-lang.modules" %% "scala-async" % "0.10.0",
+//  "org.scala-lang" % "scala-reflect" % scalaVersion.value % Provided
 )
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %%% "scalatest" % "3.2.9" % "test"
-  //"org.scalacheck" %%% "scalacheck" % "1.14.1" % "test"
+  "org.scalatest" %%% "scalatest" % "3.2.11" % "test"
 )
 
 libraryDependencies ++= Seq(
