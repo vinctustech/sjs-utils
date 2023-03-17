@@ -12,6 +12,6 @@ object Implicits {
 
   implicit def dotDynamicMap(f: DynamicMapField): DynamicMap = f.asMap
 
-  implicit def dotMap(f: DynamicMapField): Map[String, Any] = dotDynamicMap(f)
+  implicit def dotMap(f: DynamicMapField): DynamicMap = dotDynamicMap(f)
 
 }

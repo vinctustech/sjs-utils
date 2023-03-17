@@ -1,5 +1,7 @@
 package com.vinctus.sjs_utils
 
+import com.vinctus.sjs_utils
+
 import scala.collection.immutable.{AbstractMap, VectorMap}
 
 object map extends Dynamic {
@@ -17,10 +19,13 @@ object map extends Dynamic {
 
 class DynamicMapField(val obj: Either[DynamicMap, Product], val field: String) extends Dynamic {
   def selectDynamic(subfield: String): DynamicMapField =
-    new DynamicMapField(get match {
-      case m: DynamicMap => Left(m)
-      case p: Product    => Right(p)
-    }, subfield)
+    new DynamicMapField(
+      get match {
+        case m: DynamicMap => Left(m)
+        case p: Product    => Right(p)
+      },
+      subfield
+    )
 
   def get: Any =
     obj match {
@@ -45,9 +50,42 @@ object DynamicMap {
 
 }
 
-class DynamicMap(obj: Map[String, Any]) extends AbstractMap[String, Any] with Dynamic {
+//class DynamicMap(val obj: Map[String, Any]) extends /*collection.Map[String, Any] with*/ Dynamic {
+//
+//  def apply(k: String): Any = obj(k)
+//
+////  def selectDynamic(field: String): String = obj(field).asInstanceOf[String]
+//  def selectDynamic(field: String): DynamicMapField = new DynamicMapField(Left(this), field)
+//
+//  def >>>(field: String): DynamicMap = obj(field).asInstanceOf[DynamicMap]
+//
+//  def >>(field: String): String = obj(field).asInstanceOf[String]
+//
+//  def removed(key: String): DynamicMap = new DynamicMap(obj.removed(key))
+//
+//  def get(key: String): Option[Any] = obj.get(key)
+//
+//  def iterator: Iterator[(String, Any)] = obj.iterator
+//
+//  def map(f: ((String, Any)) => (String, Any)): DynamicMap = DynamicMap(obj.map(f))
+//
+//  def updated[V1 >: Any](key: String, value: V1): DynamicMap = new DynamicMap(obj.updated(key, value))
+//
+//  private def quoted(a: Any) =
+//    a match {
+//      case s: String => s"${'"'}$s${'"'}"
+//      case _         => String.valueOf(a)
+//    }
+//
+//  override def toString: String = obj.map { case (k, v) => s"$k: ${quoted(v)}" }.mkString("{", ", ", "}")
+//
+//}
 
-//  def selectDynamic(field: String): String = obj(field).asInstanceOf[String]
+class DynamicMap(val obj: Map[String, Any]) extends Map[String, Any] with Dynamic {
+
+  override def apply(k: String): Any = obj(k)
+
+  //  def selectDynamic(field: String): String = obj(field).asInstanceOf[String]
   def selectDynamic(field: String): DynamicMapField = new DynamicMapField(Left(this), field)
 
   def >>>(field: String): DynamicMap = obj(field).asInstanceOf[DynamicMap]
@@ -59,6 +97,10 @@ class DynamicMap(obj: Map[String, Any]) extends AbstractMap[String, Any] with Dy
   def get(key: String): Option[Any] = obj.get(key)
 
   def iterator: Iterator[(String, Any)] = obj.iterator
+
+  override def map[K, V](f: ((String, Any)) => (K, V)): Map[K, V] = DynamicMap(
+    obj.map(f.asInstanceOf[((String, Any)) => (String, Any)])
+  ).asInstanceOf[Map[K, V]]
 
   def updated[V1 >: Any](key: String, value: V1): DynamicMap = new DynamicMap(obj.updated(key, value))
 

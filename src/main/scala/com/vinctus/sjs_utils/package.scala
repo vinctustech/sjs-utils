@@ -19,14 +19,14 @@ package object sjs_utils {
   def fromJS(a: js.UndefOr[js.Any]): Any =
     if (!a.isDefined) null
     else if (jsObject(a))
-      a.asInstanceOf[js.Dictionary[js.Any]].iterator map {
-        case (k, v) => (k, fromJS(v.asInstanceOf[js.Any]).asInstanceOf[js.UndefOr[js.Any]])
+      a.asInstanceOf[js.Dictionary[js.Any]].iterator map { case (k, v) =>
+        (k, fromJS(v).asInstanceOf[js.UndefOr[js.Any]])
       } to VectorMap
     else if (jsArray(a))
       a.asInstanceOf[js.Array[js.Any]].iterator map (fromJS(_).asInstanceOf[js.UndefOr[js.Any]]) toList
     else a
 
-  def toJS(a: Any): js.Any =
+  def toJS(a: Any): js.Any = {
     a match {
       case Some(a)          => a.asInstanceOf[js.Any]
       case None             => js.undefined
@@ -41,5 +41,5 @@ package object sjs_utils {
           .toJSDictionary
       case _ => a.asInstanceOf[js.Any]
     }
-
+  }
 }

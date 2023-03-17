@@ -1,16 +1,19 @@
 name := "sjs-utils"
 
-version := "0.1.0-snapshot.27"
+version := "0.1.0-snapshot.31"
 
-scalaVersion := "3.1.1"
+scalaVersion := "3.2.2"
 
-scalacOptions ++= Seq("-deprecation",
-                      "-feature",
-                      "-unchecked",
-                      "-language:postfixOps",
-                      "-language:implicitConversions",
-                      "-language:existentials",
-                      "-language:dynamics")
+scalacOptions ++= Seq(
+  "-deprecation",
+  "-feature",
+  "-unchecked",
+  "-language:postfixOps",
+  "-language:implicitConversions",
+  "-language:existentials",
+  "-language:dynamics",
+  "-explain"
+)
 
 organization := "com.vinctus"
 
@@ -40,14 +43,12 @@ libraryDependencies ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %%% "scalatest" % "3.2.11" % "test"
+  "org.scalatest" %%% "scalatest" % "3.2.15" % "test"
 )
 
 libraryDependencies ++= Seq(
-  "io.github.cquiroz" %%% "scala-java-time" % "2.3.0"
+  "io.github.cquiroz" %%% "scala-java-time" % "2.5.0"
 )
-
-Test / mainClass := Some(s"${organization.value}.${name.value.replace('-', '_')}.Main")
 
 publishMavenStyle := true
 
@@ -60,16 +61,3 @@ pomIncludeRepository := { _ =>
 licenses := Seq("ISC" -> url("https://opensource.org/licenses/ISC"))
 
 homepage := Some(url("https://github.com/vinctustech/" + name.value))
-
-pomExtra :=
-  <scm>
-    <url>git@github.com:vinctustech/{name.value}.git</url>
-    <connection>scm:git:git@github.com:vinctustech/{name.value}.git</connection>
-  </scm>
-  <developers>
-    <developer>
-      <id>edadma</id>
-      <name>Edward A. Maxedon, Sr.</name>
-      <url>https://github.com/vinctustech</url>
-    </developer>
-  </developers>

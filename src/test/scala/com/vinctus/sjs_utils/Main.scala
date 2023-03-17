@@ -2,15 +2,12 @@ package com.vinctus.sjs_utils
 
 import Implicits._
 
-object Main extends App {
+import scalajs.js
 
-  case class CC(d: Int, e: String)
+@main def run(): Unit =
+  def stringify(x: Any) = js.JSON.stringify(x.asInstanceOf[js.Any], null.asInstanceOf[js.Array[js.Any]], 2)
 
-  val m = map(a = 3, b = "asdf", c = CC(5, "zxcv"), d = List(1, 2, 3))
+  val m = new DynamicMap(toMap(js.Dynamic.literal(a = 3, b = 4, c = 5, d = 6, e = 7)))
 
-  val n: Int = m.c.d
-  val s: String = m.c.e
-
-  println(n, s, m)
-
-}
+  println(m)
+  println(stringify(toJS(m)))
