@@ -17,7 +17,7 @@ package object sjs_utils {
   def toMap(a: js.UndefOr[js.Any], undefinedToNull: Boolean = true): VectorMap[String, Any] =
     fromJS(a, undefinedToNull).asInstanceOf[VectorMap[String, Any]]
 
-  def fromJS(a: js.UndefOr[js.Any], undefinedToNull: Boolean): Any =
+  def fromJS(a: js.UndefOr[js.Any], undefinedToNull: Boolean = true): Any =
     if (undefinedToNull && !a.isDefined) null
     else if (jsObject(a))
       a.asInstanceOf[js.Dictionary[js.Any]].iterator map { case (k, v) =>
