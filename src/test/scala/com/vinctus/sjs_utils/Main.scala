@@ -7,7 +7,14 @@ import scalajs.js
 @main def run(): Unit =
   def stringify(x: Any) = js.JSON.stringify(x.asInstanceOf[js.Any], null.asInstanceOf[js.Array[js.Any]], 2)
 
-  val m = new DynamicMap(toMap(js.Dynamic.literal(a = 3, b = 4, c = 5, d = 6, e = 7)))
+  val o = js.Dynamic.literal(a = 3, b = js.undefined)
+
+  println(stringify(o))
+
+  println(o.asInstanceOf[js.Dictionary[js.Any]].iterator.mkString(", "))
+  val m = toMap(o, false)
 
   println(m)
   println(stringify(toJS(m)))
+
+  println(fromJS(js.undefined, false))
